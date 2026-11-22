@@ -1,0 +1,6 @@
+apiVersion: v2
+name: sample-app
+description: Static web app that reads one secret from Azure Key Vault through Workload Identity
+type: application
+version: 0.1.0
+appVersion: "0.1.0"

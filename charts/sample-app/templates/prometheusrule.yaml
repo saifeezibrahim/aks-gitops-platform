@@ -1,0 +1,27 @@
+{{- if .Values.monitoring.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: sample-app
+  labels:
+    {{- include "sample-app.labels" . | nindent 4 }}
+    release: monitoring # matched by kube-prometheus-stack's rule selector
+spec:
+  groups:
+    - name: sample-app
+      rules:
+        - alert: SampleAppPodRestarting
+          expr: increase(kube_pod_container_status_restarts_total{namespace="{{ .Release.Namespace }}"}[15m]) > 2
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Pod {{`{{ $labels.pod }}`}} restarted more than twice in 15 minutes"
+        - alert: SampleAppNotAvailable
+          expr: kube_deployment_status_replicas_available{namespace="{{ .Release.Namespace }}",deployment="sample-app"} < 1
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "sample-app has no available replicas"
+{{- end }}

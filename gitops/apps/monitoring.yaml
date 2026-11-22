@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0" # before the app, so the PrometheusRule CRD exists
+spec:
+  project: default
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: 65.8.1
+    helm:
+      releaseName: monitoring
+      valuesObject:
+        prometheus:
+          prometheusSpec:
+            retention: 2d
+            resources:
+              requests: { cpu: 100m, memory: 400Mi }
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true # the Prometheus CRDs are too large for client-side apply

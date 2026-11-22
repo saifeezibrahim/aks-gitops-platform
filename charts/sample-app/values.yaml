@@ -1,0 +1,21 @@
+image:
+  repository: ghcr.io/saifeezibrahim/aks-gitops-sample-app
+  tag: "latest" # CI replaces this with the commit SHA
+  pullPolicy: IfNotPresent
+
+replicaCount: 2
+
+resources:
+  requests: { cpu: 50m, memory: 32Mi }
+  limits: { cpu: 200m, memory: 64Mi }
+
+# Filled from Terraform outputs by scripts/render-values.sh (writes values-azure.yaml)
+azure:
+  tenantId: ""
+  clientId: ""
+  keyVaultName: ""
+  secretName: app-message
+
+monitoring:
+  # Needs the PrometheusRule CRD from kube-prometheus-stack
+  enabled: true

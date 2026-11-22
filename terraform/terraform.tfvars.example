@@ -1,0 +1,7 @@
+prefix       = "gitopslab"
+location     = "centralindia"
+node_vm_size = "Standard_B2s"
+node_count   = 2
+
+# Your public IP, e.g. from: curl -s ifconfig.me
+admin_ip_cidrs = ["203.0.113.10/32"]
