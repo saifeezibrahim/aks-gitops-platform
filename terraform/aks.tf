@@ -11,6 +11,9 @@ resource "azurerm_kubernetes_cluster" "this" {
     authorized_ip_ranges = var.admin_ip_cidrs
   }
 
+  # Kubernetes RBAC on (the provider default, made explicit for reviewers and scanners).
+  role_based_access_control_enabled = true
+
   # Needed for Microsoft Entra Workload ID: pods get Azure tokens without stored secrets.
   oidc_issuer_enabled       = true
   workload_identity_enabled = true
