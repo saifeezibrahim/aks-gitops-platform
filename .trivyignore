@@ -1,0 +1,11 @@
+# Accepted risk, reviewed 2026-11-22. Each entry expires and fails CI again on that date.
+# All six are nginx CVEs fixed in 1.30.7, and no nginx-unprivileged image with 1.30.7 has been published yet.
+# This app does not use any affected feature: app/nginx.conf serves plain HTTP/1.1 on 8080,
+# with no mail proxy, no HTTP/2 or HTTP/3, no TLS and no resolver directive.
+# Action: move the base image to the first nginx-unprivileged tag that ships 1.30.7, then delete this file.
+CVE-2026-113425 exp:2026-12-31
+CVE-2026-121810 exp:2026-12-31
+CVE-2026-123007 exp:2026-12-31
+CVE-2026-123633 exp:2026-12-31
+CVE-2026-118899 exp:2026-12-31
+CVE-2026-123634 exp:2026-12-31
